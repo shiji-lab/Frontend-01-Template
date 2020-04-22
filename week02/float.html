@@ -1,0 +1,18 @@
+<script>
+    var a = 0.1;
+    var b = 0.2;
+
+    const memory = new Float64Array(1);
+    memory[0] = a;
+
+    const intArr = new Uint8Array(memory.buffer);
+
+    for (let i = 0; i < 8; i++) {
+        let s = intArr[i].toString(2);
+        console.log(s);
+    }
+
+    console.log(memory);
+    console.log(intArr);
+    
+</script>
