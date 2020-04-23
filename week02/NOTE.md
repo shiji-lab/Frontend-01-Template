@@ -17,24 +17,32 @@
 > 一开始审题的时候以为要在一套规则里适用所有进制类型的 Number 直接量，一直想不出来，看了下其他同学的答案，原来直接分类去写就行了。
 
 - DecimalLiteral 十进制数
-DecimalIntegerLiteral . DecimalDigits ExponentPart
-. DecimalDigits ExponentPart
-DecimalIntegerLiteral ExponentPart
+    - DecimalIntegerLiteral . DecimalDigits ExponentPart
+    - . DecimalDigits ExponentPart
+    - DecimalIntegerLiteral ExponentPart
 
+```js
 DecimalIntegerLiteral: /[1-9]?[0-9]*/
 DecimalDigits: /[0-9]*/
 ExponentPart: /[eE]?[+-]?[0-9]/
 
 /(^[1-9]?[0-9]*\.[0-9]*[eE]?[+-]?[0-9]*$)|(^\.[0-9]*[eE]?[+-]?[0-9]*$)|(^[1-9]?[0-9]*[eE]?[+-]?[0-9]*$)/
+```
 
 - BinaryIntegerLiteral 二进制整数
+```js
 /^(0b)[01]+$/
+```
 
 - OctalIntegerLiteral 八进制整数
+```js
 /^(0o)[0-7]+$/
+```
 
 - HexIntegerLiteral 十六进制整数
+```js
 /^(0x)[0-9a-eA-E]+$/
+```
 
 所以，最终 Numberic Literals 直接量的表示方式为：
 
@@ -43,7 +51,7 @@ ExponentPart: /[eE]?[+-]?[0-9]/
 ```
 
 轨道图：
-![number literal](./number literal.png)
+![number literal](https://github.com/shiji-lab/Frontend-01-Template/blob/master/week02/number%20literal.png)
 
 
 ```javascript
