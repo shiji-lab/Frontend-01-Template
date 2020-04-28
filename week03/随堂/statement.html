@@ -1,0 +1,148 @@
+<script>
+
+/*
+
+a = 1 + 2;
+;
+debugger;
+throw a;
+continue label1;
+break label2;
+return 1 + 2;
+
+*/
+// block statement
+{
+    // ...
+}
+
+for (let i = 0;;) {
+    console.log(i);
+}
+
+for (;;) {
+    let i = 0;
+    console.log(i);
+}
+
+// 等效声明
+function run () {
+    var i;
+
+    for (var i;;) {
+        var i;
+    }
+
+    return;
+
+    var i;
+}
+
+for (let p in {a: 1, b: 2}) {
+    console.log(p);
+}
+
+for (let p of [1, 2, 3]) {
+    console.log(p);
+}
+
+function *g() {
+    yield 0;
+    yield 1;
+    yield 2;
+}
+
+for (let p of g()) {
+    console.log(p);
+}
+
+try {
+    throw 1;
+} catch (e) {
+    let e;
+    console.log(e);
+} finally {
+
+}
+
+function* gen () {
+    yield 1;
+    yield 2;
+    yield 3;
+    
+    let i = 0;
+    while(true) {
+        yield i++;
+    }
+}
+let gen = foo();
+gen.next();
+gen.next();
+gen.next();
+gen.next();
+
+let i = 0;
+function tick () {
+    i++;
+    setTimeout(tick, 1000);
+}
+
+function sleep(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
+void async function () {
+    var i = 0;
+    while (true) {
+        console.log(i++);
+        await sleep(1000);
+    }
+}();
+
+function sleep(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
+async function* foo() {
+    var i = 0;
+    while (true) {
+        console.log(i++);
+        yield i++;
+        await sleep(1000);
+    }
+};
+
+void async function() {
+    var g = foo();
+    // console.log(await g.next());
+    // console.log(await g.next());
+    // console.log(await g.next());
+    // console.log(await g.next());
+    // console.log(await g.next());
+    // console.log(await g.next());
+
+    for await (let e of g) {
+        console.log(e);
+    }
+}();
+
+var x = 0;
+function foo() {
+    var o = {x: 1};
+    x = 2;
+    with (o) {
+        var x = 3;  // var 影响到了 x = 2 的行为
+    }
+
+    if(false) {
+        var x = 4;  // var 影响到了 x = 2 的行为
+    }
+
+    console.log(x);
+}
+
+foo();
+console.log(x);
+
+
+</script>

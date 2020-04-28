@@ -60,8 +60,28 @@ ExponentPart: /[eE]?[+-]?[0-9]/
 
 ### 写一个 UTF-8 Encoding 的函数
 https://github.com/mathiasbynens/utf8.js
-```javascript
 
+http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html
+UTF-8 是一种字符编码方案，定义一个字符对应二进制代码如何存储。
+UTF-8 是 Unicode 的实现方式之一
+UTF-8 的编码规则很简单，只有二条：
+- 1）对于单字节的符号，字节的第一位设为0，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。
+- 2）对于n字节的符号（n > 1），第一个字节的前n位都设为1，第n + 1位设为0，后面字节的前两位一律设为10。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。
+
+因此，我们可以知道，对于单个字符：
+1. 算出字符码点
+2. 根据码点值判断需要几个字节表示
+3. 转化为相应的编码
+
+```javascript
+function UTF8_Encoding (string) {
+    for (let i = 0; i < string.length; i++) {
+        const codePoint = string.codePointAt(i);
+        console.log(codePoint.toString(2));
+    }
+
+    // return new Buffer()
+}
 ```
 
 
