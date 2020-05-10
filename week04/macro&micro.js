@@ -1,6 +1,15 @@
 async function afoo () {
     console.log(-2);
-    await new Promise(resolve => resolve());
+    await new Promise(resolve => {
+        console.log(-3);
+        resolve()
+    });
+    // 这里可以理解为有一个 then
+
+    await new Promise(resolve => {
+        console.log(-4);
+        resolve();
+    });
 
     console.log(-1);
 }
@@ -33,3 +42,22 @@ console.log(6);
 //   微任务 1.3
 // 宏任务 2
 //   微任务 2.1
+
+
+
+
+async function async1() {
+    console.log('async1 start'); // 第一个宏任务 1
+    await async2();
+    console.log('async1 end'); // 第一个微任务 1
+}
+async function async2() {
+    console.log('async2');  // 第一个宏任务 2
+}
+async1(); // 开始执行
+new Promise(function (resolve) {
+    console.log('promise1');  // 第一个宏任务 3
+    resolve();
+}).then(function () {
+    console.log('promise2'); // 第一个微任务 2
+});

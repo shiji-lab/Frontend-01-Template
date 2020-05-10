@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Object & Relation in G6</title>
+    <style>
+        .g6-tooltip {
+            border: 1px solid #e2e2e2;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #545454;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 8px;
+            box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 图的画布容器 -->
+    <div id="mountNode"></div>
+
+    <!-- 引入 G6 -->
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/grid.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/bundling.js"></script>
+    <script src="./realm.js"></script>
+
+    <script>
+        // 定义数据源
+        const data = {
+            // 点集
+            nodes,
+            // 边集
+            edges,
+        };
+
+        // const edgeBundling = new Bundling({
+        //     bundleThreshold: 0.6,
+        //     K: 100
+        // });
+        const grid = new Grid();
+
+        // 创建 G6 图实例
+        const graph = new G6.Graph({
+            container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
+            fitView: true,
+            // 画布宽高
+            width: window.innerWidth,
+            height: window.innerHeight,
+            plugins: [grid],
+            animate: true,
+            modes: {
+                default: [ 'zoom-canvas', 'drag-node', 'drag-canvas', {
+                    type: 'tooltip',
+                    formatText: function formatText(model) {
+                        const text = model.label + '\'s degree: ' + model.degree;
+                        return text;
+                    },
+                    offset: 30
+                },{
+                    type: 'edge-tooltip',
+                    formatText: function formatText(model) {
+                        return model.label;
+                    },
+                    offset: 30
+                }, ]
+            },
+            defaultNode: {
+                style: {
+                    fillOpacity: 0.4
+                },
+                labelCfg: {
+                    style: {
+                        opacity: 0.4
+                    }
+                }
+            },
+            defaultEdge: {
+                shape: 'cubic',
+                size: .1,
+                color: '#000',
+                style: {
+                    endArrow: {
+                        path: 'M 0,0 L -4,2 L -1,0 L -4,-2 Z',
+                        fill: '#000'
+                    },
+                },
+                labelCfg: {
+                    style: {
+                        opacity: 0
+                    }
+                }
+            },
+
+            // layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
+            //     type: 'fruchterman',
+            //     maxIteration: 8000,
+            //     gravity: 1,
+            //     workerEnabled: true,
+            //     clustering: true
+            // },
+
+            // layout: {
+            //     type: 'mds',
+            //     linkDistance: 100,
+            // },
+
+            layout: {
+                type: 'circular',
+                ordering: 'degree',
+                // startRadius: 100,
+                // endRadius: 1000,
+            },
+
+            // layout: {
+            //     type: 'radial',
+            //     unitRadius: 50,
+            //     preventOverlap: true,
+            //     maxPreventOverlapIteration: 100,
+            // },
+            
+        });
+        // edgeBundling.bundling(data);
+        // 读取数据
+        graph.data(data);
+        // 渲染图
+        graph.render();
+
+
+        const hideNodes = graph.findAll('node', node => {
+            // return node.get('model').degree <=4;    // 度 <= 4 的节点隐藏
+        });
+        console.log(hideNodes.length);
+        hideNodes.forEach(node => {
+            graph.hideItem(node);
+        });
+
+        graph.refresh();
+    </script>
+</body>
+
+</html>
