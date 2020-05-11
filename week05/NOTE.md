@@ -12,7 +12,10 @@
 2. 用迭代循环的方式找到上述 Global Object 属性/原型 上的对象
     - Objcet.getOwnPropertyNames：返回对象所有拥有的属性（包括不可枚举）的名称
     - Object.getPrototypeOf：返回对象原型
-    
+
 3. 用 G6 表示上述关系
 
-代码：[object.html](./object.html)
+- 代码：[object.html](./object.html)
+- 最终效果：![object.png](./object.png)
+
+## 作业二：随堂作业
