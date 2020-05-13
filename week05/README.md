@@ -18,4 +18,9 @@
 - 代码：[object.html](./object.html)
 - 最终效果：![object.png](./object.png)
 
+TODO:
+- quene 和 nodes 可以用同一套数据结构
+- 页面增加切换显示指定 degree 的节点
+- 更佳的可视化效果
+
 ## 作业二：随堂作业
