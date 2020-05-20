@@ -1,4 +1,5 @@
 const net = require('net'); // TCP 库
+const parser = require('./parser.js');
 
 /*
 const client = net.createConnection({
@@ -88,8 +89,8 @@ class Request {
                 // console.log('✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔✔');
                 parser.receive(data.toString());
                 if (parser.isFinished) {
-                    console.log('✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘');
-                    console.log(parser.response);
+                    // console.log('✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘✘');
+                    // console.log(parser.response);
                     resolve(parser.response);
                 }
                 // console.log(parser.statusLine);
@@ -99,8 +100,8 @@ class Request {
             });
             connection.on('error', (error) => {
                 reject(error);
-                client.end();
-              });
+                connection.end();
+            });
         });
 
     }
@@ -219,7 +220,7 @@ class TrunkedBodyParser {
         // if (this.isFinish) return;  // todo 如果处理完成，则直接结束，不可以！！！，因为可能会有多段
         if (this.current === this.WAITTING_LENGTH) {
             if (char === '\r') {
-                console.log('✔', this.length);
+                // console.log('✔', this.length);
                 if (this.length === 0) {    // fixme 这里的判断有问题！
                     this.isFinish = true;
                 }
@@ -227,8 +228,7 @@ class TrunkedBodyParser {
             } else {
                 // this.length *= 10;
                 // this.length += char.charCodeAt(0) - '0'.charCodeAt(0);
-                // 用的是 16 进制
-                this.length *= 16;
+                this.length *= 16;  // 注意：这里用的是 16 进制
                 this.length += parseInt(char, 16);
             }
         } else if (this.current === this.WAITTING_LENGTH_LINE_END) {
@@ -269,6 +269,7 @@ void async function () {
     });
     
     const response = await request.send();
+    // console.log('response-->', response);
 
-    console.log(response);
+    const dom = parser.parseHTML(response.body);
 }();    
