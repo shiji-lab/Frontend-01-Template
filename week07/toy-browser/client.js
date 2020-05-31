@@ -1,5 +1,8 @@
 const net = require('net'); // TCP 库
+const images = require('images');
+
 const parser = require('./parser.js');
+const render = require('./render.js');
 
 /*
 const client = net.createConnection({
@@ -272,5 +275,11 @@ void async function () {
     // console.log('response-->', response);
 
     const dom = parser.parseHTML(response.body);
-    // console.log(JSON.stringify(dom, null, '    '));
+    console.log(JSON.stringify(dom, null, 4));
+
+    const viewport = images(800, 600);
+
+    render(viewport, dom);
+
+    viewport.save('viewport.jpg');
 }();    

@@ -17,18 +17,20 @@ function addCSSRules (text) {
 }
 
 function match (element, selector) {
-    if (!selector || !element.attributes) return false;
+    if (!selector || !element.attributes)
+        return false;
 
     if (selector.charAt(0) === '#') {
         let attr = element.attributes.filter(attr => attr.name === 'id')[0];
-        if (attr && attr.value === selector.replace('#', '')) return true;
+        if (attr && attr.value === selector.replace('#', ''))
+            return true;
     } else if (selector.charAt(0) === '.') {
         let attr = element.attributes.filter(attr => attr.name === 'class')[0];
-        if (attr && attr.value === selector.replace('.', '')) return true;  // 这里未考虑多类名的情况
+        if (attr && attr.value === selector.replace('.', ''))
+            return true;  // 这里未考虑多类名的情况
     } else {
-        if (element.tagName === selector) {
+        if (element.tagName === selector)
             return true;
-        }
     }
 }
 
@@ -124,7 +126,7 @@ function emit (token) {
         computeCSS(element);    // 每个元素刚创建就计算其 CSS，希望尽可能早的呈现出来
         // console.log(element.computedStyle);
         top.children.push(element);
-        element.parent = top;
+        // element.parent = top;
 
         if (!token.isSelfClosing) stack.push(element);
         currentTextNode = null;
