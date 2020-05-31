@@ -22,8 +22,8 @@ body div img{
 </head>
 <body>
     <div>
-        <img id="myid"/>
-        <img />
+        <img id="myid" />
+        <img ccc=22222 />
     </div>
 </body>
 </html>`
