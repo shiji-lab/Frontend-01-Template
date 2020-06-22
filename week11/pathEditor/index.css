@@ -1,0 +1,20 @@
+html, body { width: 100%; height: 100%; }
+body { display: flex; margin: 0; }
+#canvas {
+	margin: auto;
+	width: 700px;
+	font-size: 0;
+}
+.cell {
+	display: inline-block;
+	margin: 1px;
+	width: 5px;
+	height: 5px;
+	background-color: lightgray;
+}
+aside {
+	position: fixed;
+	left: 0;
+	top: 50%;
+}
+#prompt { display: block; }

@@ -1,0 +1,50 @@
+<h5>inline-box 有内容：</h5>
+<p>文字与 inline-box 基于基线对齐</p>
+<div style="background: pink; font-size: 50px; line-height: 100px;">
+	Hello,
+	<div style="background: grey; line-height: 60px; width: 100px; height: 100px; display: inline-block;">
+		World.
+	</div>
+</div>
+
+<h5>inline-box 无内容：</h5>
+<p>文字与 inline-box 基于基线（但此时基线是 inline-box 下边缘）对齐</p>
+<div style="background: pink; font-size: 50px; line-height: 100px;">
+	Hello,
+	<div style="background: grey; line-height: 60px; width: 100px; height: 100px; display: inline-block;">
+		
+	</div>
+</div>
+
+<h5>inline-box 无内容搭配 vertical-align 为 bottom：</h5>
+<p>文字与 inline-box 基于 bottom 对齐（vertical-align: botttom）</p>
+<div style="background: pink; font-size: 50px; line-height: 100px;">
+	Hello,
+	<div style="vertical-align: bottom; background: grey; line-height: 60px; width: 100px; height: 150px; display: inline-block;">
+		
+	</div>
+</div>
+
+<h5>inline-box 无内容搭配 vertical-align 为 top：</h5>
+<p>文字与 inline-box 基于 top 对齐（vertical-align: top</p>
+<div style="background: pink; font-size: 50px; line-height: 100px;">
+	Hello,
+	<div style="vertical-align: top; background: grey; line-height: 60px; width: 100px; height: 150px; display: inline-block;">
+		
+	</div>
+</div>
+
+<h5>inline-box 高度超过行高时，top 和 bottom 表现</h5>
+<p>文字与 inline-box 基于 top 对齐（vertical-align: top</p>
+<div style="background: pink; font-size: 50px; line-height: 100px;">
+	<div style="vertical-align: top;overflow: visible;display: inline-block;width: 1px;height: 1px;">
+        <div style="width: 1200px;height: 1px;background-color: blue;"></div>
+    </div>
+    <div style="vertical-align: bottom;overflow: visible;display: inline-block;width: 1px;height: 1px;">
+        <div style="width: 1200px;height: 1px;background-color: blueviolet;"></div>
+    </div>
+	Hello,
+	<div style="vertical-align: bottom; background: grey; line-height: 60px; width: 100px; height: 50px; display: inline-block;"></div>
+	<div style="vertical-align: top; background: grey; line-height: 60px; width: 50px; height: 100px; display: inline-block;"></div>
+	<!-- <div style="vertical-align: bottom; background: grey; line-height: 60px; width: 500px; height: 300px; display: inline-block;"></div> -->
+</div>
