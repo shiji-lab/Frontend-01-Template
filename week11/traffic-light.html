@@ -176,4 +176,38 @@ function co (generator) {
  
 go = co(go);
 
+// generator 会生成 iterator
+// iterator 通常与 for...of 搭配
+// function* g() {
+//     yield 1;
+//     yield 2;
+//     yield 3;
+// }
+
+// for (v of g) {
+//     console.log(v);
+// }
+
+async function* g() {
+    let i = 0;
+    while (true) {
+        await sleep(1000);
+        yield i++;
+    }
+}
+for await(let v of g) {
+    console.log(v);
+}
+
+// 函数调用才会栈溢出
+/*
+generator 有哪些应用场景？
+generator 是一个底层的逻辑的东西，不用关心在哪里用。
+其实是你在代码里想不想用的问题，他能形成一种特定的结构和**表达，不一定和哪个实际业务相关
+新的表达，新的思路
+可能会更简洁、易读
+但用的不好就可能把代码整乱了
+和任何一个语言特性类似，需要熟练掌握、深入理解，然后应用到生产环境
+*/
+
 </script>

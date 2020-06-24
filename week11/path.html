@@ -1,0 +1,101 @@
+<style>
+    body {
+        margin: 0;
+    }
+.cell {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: grey;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+#container {
+    box-sizing: border-box;
+}
+</style>
+
+<div id="container"></div>
+<button onclick="localStorage.map = JSON.stringify(map)">save</button>
+
+<script>
+    // 没有 fill 的时候
+    // let map = new Array(10001).join(0).split('').map(s => Number(s));
+
+    const map = localStorage.map ? JSON.parse(localStorage.map) : new Array(10000).fill(0);
+    const container = document.getElementById('container');
+    let mouse = false;
+    let clear = false;
+    let lastPoint = null;
+    let currentPoint = null;
+
+    for (let y = 0; y < 100; y++) {
+        for (let x = 0; x < 100; x++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.id = 100 * y + x;
+
+            if (map[y * 100 + x] === 1) {
+                cell.style.backgroundColor = 'black';
+            }
+
+            cell.addEventListener('mousemove', (event) => {
+                const { x, y } = event;
+                lastPoint = currentPoint;
+                currentPoint = {x, y};
+                if (mouse) {
+                    if (clear) {
+                        dye(lastPoint, currentPoint, '');
+                        cell.style.backgroundColor = '';
+                        map[y * 100 + x] = 0;
+                    } else {
+                        dye(lastPoint, currentPoint, 'black');
+                        cell.style.backgroundColor = 'black';
+                        map[y * 100 + x] = 1;
+                    }
+                }
+            });
+
+            container.appendChild(cell);
+        }
+        container.appendChild(document.createElement('br'));
+    }
+    
+    document.addEventListener('mousedown', e => {
+        mouse = true;
+        clear = e.which === 3;    // 右键
+    });
+    document.addEventListener('mouseup', () => {
+        mouse = false;
+        lastPoint = null;
+        currentPoint = null;
+    });
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    function dye(lastPoint, currentPoint, color) {
+        if (lastPoint && currentPoint) {
+            let lx = lastPoint.x;
+            let ly = lastPoint.y;
+            let cx = currentPoint.x;
+            let cy = currentPoint.y;
+
+            let xDiff = Math.abs(cx - lx);
+            let yDiff = Math.abs(cy - ly);
+            
+            if (xDiff >= yDiff) {
+                let sy, ey;
+                sy = cy - ly > 0 ? ly : cy;
+                ey = cy - ly > 0 ? cy : ly;
+
+                while (sy < ey) {
+                    sy++;
+                    const k = 
+                }
+            }
+        }
+    }
+</script>
