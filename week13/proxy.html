@@ -1,0 +1,63 @@
+<input id="r" type="range" min=0 max=255 />
+<input id="g" type="range" min=0 max=255 />
+<input id="b" type="range" min=0 max=255 />
+<div id="color" style="width: 80px; height: 40px" />
+
+<script>
+    let handlerMap = new Map();
+    let usedReactivities = [];
+
+    function reactive (obj) {
+        return new Proxy(obj, {
+            get (obj, prop) {
+                usedReactivities.push([obj, prop]); // 依赖收集
+                if (typeof obj[prop] === 'object') {
+                    return reactive(obj[prop]);
+                }
+                return obj[prop];
+            },
+            set (obj, prop, val) {
+                obj[prop] = val;
+                if (handlerMap.get(obj)) {
+                    if (handlerMap.get(obj).get(prop)) {
+                        for (let handler of handlerMap.get(obj).get(prop)) {
+                            handler();
+                        }
+                    }
+                }
+                return obj[prop];
+            }
+        });
+    }
+
+    function effect (handler) {
+        usedReactivities = [];
+        handler();
+        for (let usedReactivity of usedReactivities) {
+            let [obj, prop] = usedReactivity;
+            if (!handlerMap.has(obj)) {
+                handlerMap.set(obj, new Map());
+            }
+
+            if (!handlerMap.get(obj).has(prop)) {
+                handlerMap.get(obj).set(prop, []);
+            }
+
+            handlerMap.get(obj).get(prop).push(handler);
+        }
+    }
+</script>
+
+<script>
+    let rgb = reactive({ r: 0, g: 0, b: 0});
+    effect(() => document.getElementById('r').value = rgb.r);
+    effect(() => document.getElementById('g').value = rgb.g);
+    effect(() => document.getElementById('b').value = rgb.b);
+
+    document.getElementById('r').addEventListener('input', e => rgb.r = e.target.value);
+    document.getElementById('g').addEventListener('input', e => rgb.g = e.target.value);
+    document.getElementById('b').addEventListener('input', e => rgb.b = e.target.value);
+
+    effect(() => document.getElementById('color').style.backgroundColor = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+
+</script>
