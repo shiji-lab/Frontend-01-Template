@@ -1,0 +1,64 @@
+<input id="value" type="text">
+<div id="text">hello {{name}}!</div>
+
+<script>
+    let handlerMap = new Map();
+    let usedReactivities = [];
+
+    function reactive (obj) {
+        return new Proxy(obj, {
+            get (obj, prop) {
+                usedReactivities.push([obj, prop]); // 依赖收集
+                if (typeof obj[prop] === 'object') {
+                    return reactive(obj[prop]);
+                }
+                return obj[prop];
+            },
+            set (obj, prop, val) {
+                obj[prop] = val;
+                if (handlerMap.get(obj)) {
+                    if (handlerMap.get(obj).get(prop)) {
+                        for (let handler of handlerMap.get(obj).get(prop)) {
+                            handler();
+                        }
+                    }
+                }
+                return obj[prop];
+            }
+        });
+    }
+
+    function effect (handler) {
+        usedReactivities = [];
+        handler();
+        for (let usedReactivity of usedReactivities) {
+            let [obj, prop] = usedReactivity;
+            if (!handlerMap.has(obj)) {
+                handlerMap.set(obj, new Map());
+            }
+
+            if (!handlerMap.get(obj).has(prop)) {
+                handlerMap.get(obj).set(prop, []);
+            }
+
+            handlerMap.get(obj).get(prop).push(handler);
+        }
+    }
+</script>
+
+<script>
+    let data = reactive({ text: 'world' });
+
+    let range = document.createRange();
+    range.setStart(document.getElementById('text').childNodes[0], 6);
+    range.setEnd(document.getElementById('text').childNodes[0], 14);
+    effect(() => {
+        range.extractContents();
+        range.insertNode(document.createTextNode(data.text));
+    });
+
+    effect(() => document.getElementById('value').value = data.text);
+
+
+    document.getElementById('value').addEventListener('input', e => data.text = e.target.value);
+</script>
