@@ -2,9 +2,7 @@
   <div>
     <img />
   </div>
-</template>
-
-<script>
+</template><script>
 export default {
   el: '#example',
   data: {
